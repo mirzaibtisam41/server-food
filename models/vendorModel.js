@@ -3,7 +3,7 @@ const vendorSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
-    ShopName: { type: String, required: true },
+    shopName: { type: String, required: true },
     phone: { type: Number, required: true },
     location: { type: String },
     orders: { type: Array },
