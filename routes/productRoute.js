@@ -17,6 +17,6 @@ router.post("/create", upload.single('productPic'), createProduct);
 router.post("/delete", deleteProduct);
 router.post("/update", updateProductDetail);
 router.get("/getAllProducts", getAllProducts);
-router.get("/getByOwner", getOwnerProducts);
+router.post("/getByOwner", getOwnerProducts);
 
 module.exports = router;
