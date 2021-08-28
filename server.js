@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const cors = require("cors");
 const DB = require("./config/db");
+
+app.use("/uploads", express.static("uploads"));
 app.use(cors());
 
 app.get("/", (req, res) => {
