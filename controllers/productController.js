@@ -44,7 +44,7 @@ exports.deleteProduct = (req, res) => {
 exports.updateProductDetail = (req, res) => {
     const { productID, name, price, detail, category, discount, active } = req.body;
     const productObject = {};
-    if (name) { productObject.name = name; productObject.slug = name };
+    if (name) { productObject.name = name };
     if (detail) { productObject.detail = detail };
     if (price) { productObject.price = price };
     if (category) { productObject.category = category };
