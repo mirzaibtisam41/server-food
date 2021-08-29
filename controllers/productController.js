@@ -62,3 +62,17 @@ exports.updateProductDetail = (req, res) => {
         };
     });
 }
+
+exports.addProductReview = (req, res) => {
+    const { productID, user, rating, description } = req.body;
+    productModel.findOneAndUpdate(
+        { _id: productID },
+        { $push: { reviews: { user, rating, description } } },
+        { new: true }
+    ).exec((error, data) => {
+        if (error) throw error;
+        if (data) {
+            return res.json(data);
+        };
+    });
+}
