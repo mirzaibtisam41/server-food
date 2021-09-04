@@ -2,7 +2,6 @@ const productModel = require("../models/productModel");
 
 exports.createProduct = (req, res) => {
     const { owner, name, price, detail, category, discount } = req.body;
-
     const _product = new productModel({
         owner, name, price, detail, category, productPic: req.file.path, discount
     });

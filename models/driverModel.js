@@ -6,7 +6,12 @@ const driverSchema = new mongoose.Schema({
     isActive: { type: String, required: true, default: false },
     phone: { type: Number, required: true },
     location: { type: String },
-    orders: { type: Array },
+    orders: [
+        {
+            orderStatus: { type: String, default: false },
+            order: { type: mongoose.Schema.Types.ObjectId, ref: "orderSchema" }
+        }
+    ],
     image: { type: String, default: null },
     notifications: { type: String },
 }, { timestamps: true });
