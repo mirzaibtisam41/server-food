@@ -8,7 +8,7 @@ const storage = multer.diskStorage({
         cb(null, "./uploads/products");
     },
     filename: function (req, file, cb) {
-        cb(null, file.fieldname + Math.random().toFixed(5) + "." + file.mimetype.split('image/')[1]);
+        cb(null, file.fileName);
     }
 });
 const upload = multer({ storage: storage });
