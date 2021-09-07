@@ -21,4 +21,16 @@ app.use("/api/order", require("./routes/orderRoute"));
 
 const PORT = process.env.PORT || 8000;
 
-app.listen(PORT, console.log('Server listening on port ' + PORT));
+const server = app.listen(PORT, console.log('Server listening on port ' + PORT));
+const io = require("socket.io")(server);
+
+io.on('connection', socket => {
+    socket.on('join', clientID => {
+        socket.join(clientID);
+    });
+
+    socket.on('message', (senderID, receiverID, message) => {
+        io.to(senderID).emit('getMessage', message);
+        io.to(receiverID).emit('getMessage', message);
+    });
+})
