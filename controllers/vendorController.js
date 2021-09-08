@@ -4,7 +4,6 @@ const { jwtSecret } = require("../config/keys");
 const passwordHash = require('password-hash');
 
 exports.signup = (req, res) => {
-    console.log(req.body);
 
     vendorModel.findOne({ email: req.body.email })
         .exec((error, user) => {
@@ -20,10 +19,10 @@ exports.signup = (req, res) => {
                 });
             }
             if (!user) {
-                const { name, email, password, phone, shopName } = req.body;
+                const { name, email, password, phone, shopName, location } = req.body;
                 const hashedPassword = passwordHash.generate(password);
                 const _user = new vendorModel({
-                    name, email, password: hashedPassword, phone, shopName
+                    name, email, password: hashedPassword, phone, shopName, location
                 });
 
                 _user.save((error, user) => {

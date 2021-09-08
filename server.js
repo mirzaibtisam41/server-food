@@ -30,7 +30,6 @@ app.use("/api/order", require("./routes/orderRoute"));
 const PORT = process.env.PORT || 8000;
 const server = app.listen(PORT, console.log('Server listening on port ' + PORT));
 
-const server = app.listen(PORT, console.log('Server listening on port ' + PORT));
 const io = require("socket.io")(server);
 
 io.on('connection', socket => {
