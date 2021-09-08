@@ -1,4 +1,5 @@
 const orderModel = require("../models/OrderModel");
+const driverModel = require("../models/driverModel");
 
 exports.create = (req, res) => {
     const { owner, user, product, location } = req.body;
@@ -39,4 +40,31 @@ exports.getAllOrders = (req, res) => {
             if (error) return error.message;
             if (data) return res.json(data);
         })
+}
+
+exports.forwardOrderToDriver = (req, res) => {
+    const { driverID, orderID } = req.body;
+    driverModel.findOneAndUpdate(
+        { _id: driverID },
+        { $push: { orders: { order: orderID } } },
+        { new: true }
+    ).exec((error, data) => {
+        if (error) throw error;
+        if (data) return res.json({ msg: "Order Forward..." });
+    })
+}
+
+exports.changeOrderStatus = async (req, res) => {
+    const { driverID, orderID, status } = req.body;
+    const { orders } = await driverModel.findById({ _id: driverID });
+    const _index = orders?.findIndex((obj => obj._id == orderID));
+    orders[_index].orderStatus = status
+    driverModel.findOneAndUpdate(
+        { _id: driverID },
+        { $set: { orders: orders } },
+        { new: true }
+    ).exec((error, data) => {
+        if (error) throw error;
+        if (data) return res.json({ msg: "Order status change..." });
+    });
 }

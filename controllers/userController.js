@@ -33,7 +33,7 @@ exports.signup = (req, res) => {
                         const token = jwt.sign({
                             data: user._id
                         }, jwtSecret, { expiresIn: '1d' });
-                        return res.json({ user, token })
+                        return res.json({ user, token, msg: "Registration complete successfully!" })
                     }
                 });
             }
@@ -59,7 +59,7 @@ exports.addImage = async (req, res) => {
         { $set: { image: path } },
         { new: true }
     );
-    return res.json(_profile)
+    return res.json({ _profile, msg: "Profile Upload Successfully!" })
 }
 
 exports.signin = (req, res) => {
@@ -78,7 +78,8 @@ exports.signin = (req, res) => {
                     }, jwtSecret, { expiresIn: '1d' });
                     return res.json({
                         token,
-                        user
+                        user, email,
+                        msg: "Successfully login!"
                     });
                 }
                 if (!isMatch) {

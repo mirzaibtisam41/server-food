@@ -8,8 +8,7 @@ const storage = multer.diskStorage({
         cb(null, "./uploads/products");
     },
     filename: function (req, file, cb) {
-        console.log(file);
-        cb(null, file.originalname);
+        cb(null, file.fileName);
     }
 });
 const upload = multer({ storage: storage });
