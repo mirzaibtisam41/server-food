@@ -8,6 +8,6 @@ const vendorSchema = new mongoose.Schema({
     location: { type: String },
     orders: { type: Array },
     image: { type: String, default: null },
-    notifications: { type: String },
+    notifications: { type: Object },
 }, { timestamps: true });
 module.exports = mongoose.model("vendorSchema", vendorSchema);

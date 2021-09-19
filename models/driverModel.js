@@ -5,7 +5,7 @@ const driverSchema = new mongoose.Schema({
     password: { type: String, required: true },
     isActive: { type: String, required: true, default: false },
     phone: { type: Number, required: true },
-    location: { type: String },
+    location: { type: Object },
     orders: [
         {
             orderStatus: { type: String, default: false },
