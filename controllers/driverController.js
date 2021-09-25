@@ -19,10 +19,10 @@ exports.signup = (req, res) => {
                 });
             }
             if (!user) {
-                const { name, email, password, phone, location } = req.body;
+                const { name, email, password, phone,location } = req.body;
                 const hashedPassword = passwordHash.generate(password);
                 const _user = new driverModel({
-                    name, email, password: hashedPassword, phone, location
+                    name, email, password: hashedPassword, phone,location
                 });
 
                 _user.save((error, user) => {
