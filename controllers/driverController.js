@@ -19,10 +19,10 @@ exports.signup = (req, res) => {
                 });
             }
             if (!user) {
-                const { name, email, password, phone } = req.body;
+                const { name, email, password, phone, location } = req.body;
                 const hashedPassword = passwordHash.generate(password);
                 const _user = new driverModel({
-                    name, email, password: hashedPassword, phone
+                    name, email, password: hashedPassword, phone, location
                 });
 
                 _user.save((error, user) => {
@@ -91,5 +91,13 @@ exports.getAllDriver = (req, res) => {
         .exec((error, data) => {
             if (error) throw error;
             if (data) return res.json(data);
+        })
+}
+
+exports.deleteDriver = (req, res) => {
+    driverModel.findOneAndDelete({ _id: req.body.id })
+        .exec((error, user) => {
+            if (error) return res.json(error);
+            if (user) return res.json({ msg: "Successfully Deleted!" });
         })
 }

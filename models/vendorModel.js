@@ -5,7 +5,7 @@ const vendorSchema = new mongoose.Schema({
     password: { type: String, required: true },
     shopName: { type: String, required: true },
     phone: { type: Number, required: true },
-    location: { type: String },
+    location: { type: Object },
     orders: { type: Array },
     image: { type: String, default: null },
     notifications: { type: Object },
