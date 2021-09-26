@@ -63,7 +63,6 @@ exports.addImage = async (req, res) => {
 }
 
 exports.signin = (req, res) => {
-
     userModel.findOne({ email: req.body.email })
         .exec((error, user) => {
             if (error) return res.json({ message: error.message });
@@ -78,7 +77,7 @@ exports.signin = (req, res) => {
                     }, jwtSecret, { expiresIn: '1d' });
                     return res.json({
                         token,
-                        user, email,
+                        user,
                         msg: "Successfully login!"
                     });
                 }
