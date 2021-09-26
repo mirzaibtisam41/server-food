@@ -6,6 +6,6 @@ router.post("/register", signup);
 router.post("/login", signin);
 router.post("auth", authVendor);
 router.get("/getAll", getAllVendors);
-router.get('/delete', deleteVendor);
+router.post('/delete', deleteVendor);
 
 module.exports = router;
