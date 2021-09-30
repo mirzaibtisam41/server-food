@@ -93,3 +93,11 @@ exports.getAllDriver = (req, res) => {
             if (data) return res.json(data);
         })
 }
+
+exports.deleteDriver = (req, res) => {
+    driverModel.findOneAndDelete({ _id: req.body.id })
+        .exec((error, user) => {
+            if (error) return res.json(error);
+            if (user) return res.json({ msg: "Successfully Deleted!" });
+        })
+}

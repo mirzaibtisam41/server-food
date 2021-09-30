@@ -93,3 +93,11 @@ exports.getAllVendors = (req, res) => {
             if (data) return res.json(data);
         })
 }
+
+exports.deleteVendor = (req, res) => {
+    vendorModel.findOneAndDelete({ _id: req.body.id })
+        .exec((error, user) => {
+            if (error) return res.json(error);
+            if (user) return res.json({ msg: "Successfully Deleted!" });
+        })
+}
