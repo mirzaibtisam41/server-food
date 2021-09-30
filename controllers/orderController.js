@@ -42,11 +42,12 @@ exports.getAllOrders = (req, res) => {
         })
 }
 
-exports.forwardOrderToDriver = (req, res) => {
+exports.forwardOrderToDriver = async(req, res) => {
     const { driverID, orderID } = req.body;
+let _order=await orderModel.findOne({_id:orderID);
     driverModel.findOneAndUpdate(
         { _id: driverID },
-        { $push: { orders: { order: orderID } } },
+        { $push: { orders: { order: _order} } },
         { new: true }
     ).exec((error, data) => {
         if (error) throw error;

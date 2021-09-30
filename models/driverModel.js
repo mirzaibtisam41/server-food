@@ -9,7 +9,7 @@ const driverSchema = new mongoose.Schema({
     orders: [
         {
             orderStatus: { type: String, default: false },
-            order: { type: mongoose.Schema.Types.ObjectId, ref: "orderSchema" }
+            order: { type: Object}
         }
     ],
     image: { type: String, default: null },
