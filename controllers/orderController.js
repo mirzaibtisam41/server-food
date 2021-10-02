@@ -42,12 +42,15 @@ exports.getAllOrders = (req, res) => {
         })
 }
 
-exports.forwardOrderToDriver = async(req, res) => {
+exports.forwardOrderToDriver = async (req, res) => {
     const { driverID, orderID } = req.body;
-let _order=await orderModel.findOne({_id:orderID);
+    let _order = await orderModel.findOne({ _id: orderID })
+        .populate('product', ['productPic', 'name', 'detail', 'category', 'price', 'discount'])
+        .populate('user', ['name', 'phone', 'image'])
+        .populate('owner', ['name', 'shopName', 'phone', 'image']);
     driverModel.findOneAndUpdate(
         { _id: driverID },
-        { $push: { orders: { order: _order} } },
+        { $push: { orders: { order: _order } } },
         { new: true }
     ).exec((error, data) => {
         if (error) throw error;
