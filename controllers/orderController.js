@@ -48,14 +48,27 @@ exports.forwardOrderToDriver = async (req, res) => {
         .populate('product', ['productPic', 'name', 'detail', 'category', 'price', 'discount'])
         .populate('user', ['name', 'phone', 'image'])
         .populate('owner', ['name', 'shopName', 'phone', 'image']);
-    driverModel.findOneAndUpdate(
-        { _id: driverID },
-        { $push: { orders: { order: _order } } },
-        { new: true }
-    ).exec((error, data) => {
-        if (error) throw error;
-        if (data) return res.json({ msg: "Order Forward..." });
-    })
+    if (_order) {
+        driverModel.findOneAndUpdate(
+            { _id: driverID },
+            { $push: { orders: { order: _order._id } } },
+            { new: true }
+        ).exec((error, data) => {
+            if (error) throw error;
+            if (data) return res.json({ msg: 'Order Forward' });
+        });
+    }
+}
+
+exports.getOrdersByDriver = (req, res) => {
+    const { driverID } = req.body;
+    driverModel.findOne({ _id: driverID })
+        .populate('orders.order', ['owner', 'product', 'user', 'location'])
+        // .populate('orders.order.owner', ['name', 'location'])
+        .exec((error, data) => {
+            if (error) return error.message;
+            if (data) return res.json(data);
+        })
 }
 
 exports.changeOrderStatus = async (req, res) => {

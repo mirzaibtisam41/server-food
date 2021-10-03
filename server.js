@@ -5,6 +5,7 @@ const DB = require("./config/db");
 const Emitter = require('events');
 const eventEmitter = new Emitter();
 const stripe = require('stripe');
+const messageModel = require('./models/messageModel');
 
 // middlewares
 app.use("/uploads", express.static("uploads"));
@@ -29,7 +30,6 @@ app.use("/api/order", require("./routes/orderRoute"));
 
 // stripe payment
 app.post('/api/payment', async (req, res) => {
-    // Use an existing Customer ID if this is a returning customer.
     const customer = await stripe.customers.create();
     const ephemeralKey = await stripe.ephemeralKeys.create(
         { customer: customer.id },
@@ -47,6 +47,20 @@ app.post('/api/payment', async (req, res) => {
     });
 });
 
+// get message
+app.post("/api/messages", async (req, res) => {
+    const { user1, user2 } = req.body;
+    try {
+        const newMessage = await MessageModel.find({
+            $or: [{ sender: user1, receiver: user2 },
+                { sender: user2, receiver: user1 }]
+        });
+        return res.json(newMessage);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 // server listen
 const PORT = process.env.PORT || 8000;
 const server = app.listen(PORT, console.log('Server listening on port ' + PORT));
@@ -59,7 +73,15 @@ io.on('connection', socket => {
     });
 
     socket.on('message', (senderID, receiverID, message) => {
-        io.to(senderID).emit('getMessage', message);
-        io.to(receiverID).emit('getMessage', message);
+        const _message = new messageModel({ sender: senderID, receiver: receiverID, message });
+        _message.save((error, user) => {
+            if (error) return res.json({
+                message: "Something went wrong"
+            });
+            if (user) {
+                io.to(senderID).emit('getMessage', message);
+                io.to(receiverID).emit('getMessage', message);
+            }
+        });
     });
 });
