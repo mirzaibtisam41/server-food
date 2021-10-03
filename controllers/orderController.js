@@ -61,8 +61,8 @@ exports.forwardOrderToDriver = async (req, res) => {
 exports.changeOrderStatus = async (req, res) => {
     const { driverID, orderID, status } = req.body;
     const { orders } = await driverModel.findById({ _id: driverID });
-    const _index = orders?.findIndex((obj => obj._id == orderID));
-    orders[_index].orderStatus = status
+    const _index = orders.findIndex((obj => obj._id == orderID));
+    orders[_index].orderStatus = status;
     driverModel.findOneAndUpdate(
         { _id: driverID },
         { $set: { orders: orders } },
