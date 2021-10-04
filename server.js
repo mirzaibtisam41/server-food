@@ -4,7 +4,7 @@ const cors = require("cors");
 const DB = require("./config/db");
 const Emitter = require('events');
 const eventEmitter = new Emitter();
-const stripe = require('stripe');
+const stripe = require('stripe')('sk_test_51JSgG7Jlx3SohjPySg8FBjKhhpipQ5b8tAWhdKldL2pbQb1Mw2PiUYHd2VqmtVXpD1WTdNypkKXL4uI1pV8mW7Hi00q0IRHu7i');
 const messageModel = require('./models/messageModel');
 
 // middlewares
@@ -53,7 +53,7 @@ app.post("/api/messages", async (req, res) => {
     try {
         const newMessage = await MessageModel.find({
             $or: [{ sender: user1, receiver: user2 },
-                { sender: user2, receiver: user1 }]
+            { sender: user2, receiver: user1 }]
         });
         return res.json(newMessage);
     } catch (error) {
