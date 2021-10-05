@@ -4,7 +4,7 @@ const cors = require("cors");
 const DB = require("./config/db");
 const Emitter = require('events');
 const eventEmitter = new Emitter();
-const stripe = require('stripe')('sk_test_51JSgG7Jlx3SohjPySg8FBjKhhpipQ5b8tAWhdKldL2pbQb1Mw2PiUYHd2VqmtVXpD1WTdNypkKXL4uI1pV8mW7Hi00q0IRHu7i');
+const stripe = require('stripe')('sk_test_51JIeWFLfXDB2fV1VF8jl7RZrnUcLjl3GymmmAXLIyVZVmtIyeby4XcT1gcj4fgRIQS8RKWJ2wcxgQ3qM5M7HNg2q002JEQJ5Yy');
 const messageModel = require('./models/messageModel');
 
 // middlewares
