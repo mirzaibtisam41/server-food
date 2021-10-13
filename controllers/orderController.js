@@ -3,7 +3,7 @@ const driverModel = require('../models/driverModel')
 
 exports.create = (req, res) => {
   const { owner, user, product, location } = req.body
-  const _order = new orderModel({ owner, user, product, location })
+  const _order = new orderModel({ owner, user, product, location });
   _order.save((error, data) => {
     if (error) return error.message
     if (data) return res.json(data)
@@ -14,14 +14,7 @@ exports.getOrdersByUser = (req, res) => {
   const { user } = req.body
   orderModel
     .find({ user: user })
-    .populate('product', [
-      'productPic',
-      'name',
-      'detail',
-      'category',
-      'price',
-      'discount'
-    ])
+    .populate('owner', ['shopName', 'location', 'image', 'phone'])
     .exec((error, data) => {
       if (error) return error.message
       if (data) return res.json(data)
@@ -32,14 +25,6 @@ exports.getOrdersByVendor = (req, res) => {
   const { owner } = req.body
   orderModel
     .find({ owner: owner })
-    .populate('product', [
-      'productPic',
-      'name',
-      'detail',
-      'category',
-      'price',
-      'discount'
-    ])
     .populate('user', ['name', 'phone', 'image', 'email'])
     .exec((error, data) => {
       if (error) return error.message
@@ -50,14 +35,6 @@ exports.getOrdersByVendor = (req, res) => {
 exports.getAllOrders = (req, res) => {
   orderModel
     .find()
-    .populate('product', [
-      'productPic',
-      'name',
-      'detail',
-      'category',
-      'price',
-      'discount'
-    ])
     .populate('user', ['name', 'phone', 'image'])
     .populate('owner', ['name', 'shopName', 'phone', 'image'])
     .exec((error, data) => {
@@ -99,12 +76,6 @@ exports.getForwardMessageToMe = async (req, res) => {
         path: 'user',
       }
     })
-    .populate({
-      path: 'orders.order',
-      populate: {
-        path: 'product',
-      }
-    })
     .exec((error, data) => {
       if (error) return error.message
       if (data) return res.json(data)
@@ -116,7 +87,6 @@ exports.getOrdersByDriver = (req, res) => {
   driverModel
     .findOne({ _id: driverID })
     .populate('orders.order', ['owner', 'product', 'user', 'location'])
-    // .populate('orders.order.owner', ['name', 'location'])
     .exec((error, data) => {
       if (error) return error.message
       if (data) return res.json(data)

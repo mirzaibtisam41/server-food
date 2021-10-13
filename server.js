@@ -30,13 +30,14 @@ app.use("/api/order", require("./routes/orderRoute"));
 
 // stripe payment
 app.post('/api/payment', async (req, res) => {
+    const { amount } = req.body;
     const customer = await stripe.customers.create();
     const ephemeralKey = await stripe.ephemeralKeys.create(
         { customer: customer.id },
         { apiVersion: '2020-08-27' }
     );
     const paymentIntent = await stripe.paymentIntents.create({
-        amount: 1099,
+        amount: amount,
         currency: 'usd',
         customer: customer.id,
     });
