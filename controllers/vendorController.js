@@ -101,3 +101,14 @@ exports.deleteVendor = (req, res) => {
             if (user) return res.json({ msg: "Successfully Deleted!" });
         })
 }
+
+exports.addImage = async (req, res) => {
+    const { path } = req.file;
+    const { vendorID } = req.body;
+    const _profile = await vendorModel.findOneAndUpdate(
+        { _id: vendorID },
+        { $set: { image: path } },
+        { new: true }
+    );
+    return res.status(200).json(_profile);
+}
