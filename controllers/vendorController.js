@@ -19,11 +19,11 @@ exports.signup = (req, res) => {
                 });
             }
             if (!user) {
-                const { name, email, password, phone, shopName, location } = req.body;
+                const { name, email, password, phone, shopName, latitude, longitude } = req.body;
                 const { path } = req.file;
                 const hashedPassword = passwordHash.generate(password);
                 const _user = new vendorModel({
-                    name, email, password: hashedPassword, phone, shopName, location, image: path
+                    name, email, password: hashedPassword, phone, shopName, location: { latitude, longitude }, image: path
                 });
 
                 _user.save((error, user) => {
