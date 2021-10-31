@@ -20,9 +20,10 @@ exports.signup = (req, res) => {
             }
             if (!user) {
                 const { name, email, password, phone, shopName, location } = req.body;
+                const { path } = req.file;
                 const hashedPassword = passwordHash.generate(password);
                 const _user = new vendorModel({
-                    name, email, password: hashedPassword, phone, shopName, location
+                    name, email, password: hashedPassword, phone, shopName, location, image: path
                 });
 
                 _user.save((error, user) => {
@@ -33,7 +34,7 @@ exports.signup = (req, res) => {
                         const token = jwt.sign({
                             data: user._id
                         }, jwtSecret, { expiresIn: '1d' });
-                        return res.json({ user, token })
+                        return res.status(200).json(user)
                     }
                 });
             }

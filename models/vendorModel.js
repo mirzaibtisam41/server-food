@@ -7,7 +7,7 @@ const vendorSchema = new mongoose.Schema({
     phone: { type: Number, required: true },
     location: { type: Object },
     orders: { type: Array },
-    image: { type: String, default: null },
+    image: { type: String, required: true},
     notifications: { type: Object },
 }, { timestamps: true });
 module.exports = mongoose.model("vendorSchema", vendorSchema);
